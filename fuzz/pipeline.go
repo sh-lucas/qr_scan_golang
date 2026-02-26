@@ -43,6 +43,7 @@ func (p *Pipeline) Apply(src gocv.Mat) (gocv.Mat, bool) {
 			current.Close()
 		}
 		if next.Empty() {
+			next.Close()
 			return gocv.NewMat(), false
 		}
 		current = next
@@ -96,40 +97,41 @@ type FilterFactory func() Filter
 // The resulting slice is ordered by pipeline length (Breadth-First Search order).
 func GeneratePipelines(factories map[string]FilterFactory, maxLength int) []Pipeline {
 	var results []Pipeline
-
-	// We generate pipelines by length, from 1 to maxLength
 	for length := 1; length <= maxLength; length++ {
-		var backtrack func(path []string)
-		backtrack = func(path []string) {
-			if len(path) == length {
-				// Instantiate the pipeline
-				pipelineFilters := make([]Filter, len(path))
-				for i, name := range path {
-					pipelineFilters[i] = factories[name]()
-				}
-				results = append(results, Pipeline{Filters: pipelineFilters})
-				return
-			}
+		results = append(results, GeneratePipelinesOfLength(factories, length)...)
+	}
+	return results
+}
 
-			for name := range factories {
-				// Ensure name is not already in path (no duplicate filters in the same pipeline)
-				contains := false
-				for _, pName := range path {
-					if pName == name {
-						contains = true
-						break
-					}
+// GeneratePipelinesOfLength creates all permutations of exactly `length` filters
+// using the provided factories. Each filter appears at most once per pipeline.
+func GeneratePipelinesOfLength(factories map[string]FilterFactory, length int) []Pipeline {
+	var results []Pipeline
+	var backtrack func(path []string)
+	backtrack = func(path []string) {
+		if len(path) == length {
+			pipelineFilters := make([]Filter, len(path))
+			for i, name := range path {
+				pipelineFilters[i] = factories[name]()
+			}
+			results = append(results, Pipeline{Filters: pipelineFilters})
+			return
+		}
+		for name := range factories {
+			contains := false
+			for _, pName := range path {
+				if pName == name {
+					contains = true
+					break
 				}
-				if !contains {
-					newPath := make([]string, len(path))
-					copy(newPath, path)
-					backtrack(append(newPath, name))
-				}
+			}
+			if !contains {
+				newPath := make([]string, len(path))
+				copy(newPath, path)
+				backtrack(append(newPath, name))
 			}
 		}
-
-		backtrack([]string{})
 	}
-
+	backtrack([]string{})
 	return results
 }
