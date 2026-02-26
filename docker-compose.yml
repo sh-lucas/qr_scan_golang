@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    volumes:
+      - ./nfces:/app/nfces
+    command: ["./qr-scanner", "/app/nfces"]
+
+  baseline:
+    build: .
+    entrypoint: ["./baseline"]
+    volumes:
+      - ./nfces:/app/nfces
+    command: ["/app/nfces"]
+
+  fuzz:
+    build: .
+    entrypoint: ["./fuzz-runner"]
+    volumes:
+      - ./nfces:/app/nfces:ro
+      - ./results:/app/results
+    command: ["-nfces", "/app/nfces", "-models", "/app/models", "-out", "/app/results/results.csv", "-limit", "5", "-max-length", "1", "-step", "2"]

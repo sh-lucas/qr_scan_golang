@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  fuzz-server:
+    image: qr-scan-fuzzer:latest 
+    entrypoint: ["./fuzz-runner"]
+    # Limita o uso de CPU para 4 nucleos evitando sobrecarregar o resto dos servicos do bare-metal
+    cpus: 4.0 
+    volumes:
+      # Exporta apenas os resultados para a maquina host
+      - ./results:/app/results 
+    command: ["-nfces", "/app/nfces", "-models", "/app/models", "-out", "/app/results/results.csv", "-limit", "0", "-max-length", "3", "-step", "2"]

@@ -1,0 +1,12 @@
+image,success,qr_content,filters,configs,duration_ms,attempt_num
+IMG_1676.jpg,false,,N/A,N/A,0,10
+IMG_1670.jpg,false,,N/A,N/A,0,10
+IMG_1703.jpg,true,https://www.sefaz.rs.gov.br/NFCE/NFCE-COM.aspx?p=43260210139706000192652100001052721551322071|2|1|1|B5878E4D623AC7C5F54E972A21C0F52FE866D926,Gamma,"[{""name"":""Gamma"",""params"":{""gamma"":""0.40""}}]",29,1
+IMG_1703.jpg,true,https://www.sefaz.rs.gov.br/NFCE/NFCE-COM.aspx?p=43260210139706000192652100001052721551322071|2|1|1|B5878E4D623AC7C5F54E972A21C0F52FE866D926,CLAHE,"[{""name"":""CLAHE"",""params"":{""clipLimit"":""1.0"",""tileSize"":""4x4""}}]",119,5
+IMG_1703.jpg,true,https://www.sefaz.rs.gov.br/NFCE/NFCE-COM.aspx?p=43260210139706000192652100001052721551322071|2|1|1|B5878E4D623AC7C5F54E972A21C0F52FE866D926,Resize,"[{""name"":""Resize"",""params"":{""scale"":""0.50""}}]",144,6
+1000431075.jpg,false,,N/A,N/A,0,10
+7f9cb999-6ec0-4528-9c24-c519a0cb8f78.jpg,false,,N/A,N/A,0,10
+IMG_1695.jpg,false,,N/A,N/A,0,10
+IMG_6083.jpg,false,,N/A,N/A,0,10
+IMG_6078.jpg,false,,N/A,N/A,0,10
+IMG_6095.jpg,false,,N/A,N/A,0,10

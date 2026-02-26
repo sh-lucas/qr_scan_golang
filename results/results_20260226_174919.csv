@@ -1,0 +1,9 @@
+image,success,qr_content,filters,configs,duration_ms,attempt_num
+WhatsApp Image 2026-02-14 at 11.08.12.jpeg,true,https://www.sefaz.rs.gov.br/NFCE/NFCE-COM.aspx?p=43251045543915101700650110000003611431126714|2|1|1|E7DB766AD0474D387A2DD768F7F398581C2BE8AB,CLAHE,"[{""name"":""CLAHE"",""params"":{""clipLimit"":""2.0"",""tileSize"":""12x12""}}]",12,55
+WhatsApp Image 2026-02-14 at 11.08.12.jpeg,true,https://www.sefaz.rs.gov.br/NFCE/NFCE-COM.aspx?p=43251045543915101700650110000003611431126714|2|1|1|E7DB766AD0474D387A2DD768F7F398581C2BE8AB,AdaptiveThreshold,"[{""name"":""AdaptiveThreshold"",""params"":{""C"":""6.0"",""blockSize"":""15"",""method"":""Mean""}}]",324,81
+WhatsApp Image 2026-02-11 at 10.50.15 AM.jpeg,true,https://www.sefaz.rs.gov.br/NFCE/NFCE-COM.aspx?p=43260293015006000202651160003875961454119114|2|1|1|4863DB3B95F5041A6F7496E6379FAA7FA1A32701,Bilateral,"[{""name"":""Bilateral"",""params"":{""d"":""3"",""sigma"":""40.0""}}]",118,47
+WhatsApp Image 2026-02-11 at 10.50.15 AM.jpeg,true,https://www.sefaz.rs.gov.br/NFCE/NFCE-COM.aspx?p=43260293015006000202651160003875961454119114|2|1|1|4863DB3B95F5041A6F7496E6379FAA7FA1A32701,CLAHE,"[{""name"":""CLAHE"",""params"":{""clipLimit"":""1.0"",""tileSize"":""12x12""}}]",25,49
+WhatsApp Image 2026-02-11 at 10.50.15 AM.jpeg,true,https://www.sefaz.rs.gov.br/NFCE/NFCE-COM.aspx?p=43260293015006000202651160003875961454119114|2|1|1|4863DB3B95F5041A6F7496E6379FAA7FA1A32701,Resize,"[{""name"":""Resize"",""params"":{""scale"":""1.50""}}]",72,51
+WhatsApp Image 2026-02-11 at 13.57.09.jpeg,false,,N/A,N/A,0,104
+WhatsApp Image 2026-02-11 at 13.53.50.jpeg,false,,N/A,N/A,0,104
+WhatsApp Image 2026-02-11 at 10.47.34 AM.jpeg,false,,N/A,N/A,0,104
