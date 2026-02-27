@@ -38,8 +38,11 @@ func (p *Pipeline) Apply(src gocv.Mat) (gocv.Mat, bool) {
 
 	for i, f := range p.Filters {
 		next := f.Apply(current)
-		// If it's not the original source, we close the intermediate mat
-		if i > 0 && !current.Empty() {
+		// If it's not the original source, close the intermediate mat.
+		// Note: do NOT guard with !current.Empty() – a non-nil native cv::Mat
+		// pointer exists even when the Mat is logically empty, so it must be
+		// closed to avoid a memory leak.
+		if i > 0 {
 			current.Close()
 		}
 		if next.Empty() {

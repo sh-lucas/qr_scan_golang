@@ -4,10 +4,13 @@ import (
 	"encoding/csv"
 	"flag"
 	"fmt"
+	"image"
 	"log"
 	"math/rand"
 	"os"
 	"path/filepath"
+	"runtime"
+	"runtime/debug"
 	"strings"
 	"sync"
 	"time"
@@ -25,6 +28,7 @@ func main() {
 	maxLength := flag.Int("max-length", 2, "Maximum filters in the pipeline")
 	limit := flag.Int("limit", 0, "Limit the number of images to fuzz (0 for all)")
 	workers := flag.Int("workers", 4, "Number of concurrent workers")
+	maxDim  := flag.Int("max-dim", 1920, "Cap source image to this max dimension before running pipelines (0 = no cap)")
 	flag.Parse()
 
 	// Initializing writers...
@@ -170,11 +174,33 @@ func main() {
 						}
 
 						path := filepath.Join(*nfcesDir, f.Name())
-						img := gocv.IMRead(path, gocv.IMReadColor)
-						if img.Empty() {
-						img.Close()
-						continue
-					}
+						raw := gocv.IMRead(path, gocv.IMReadColor)
+						if raw.Empty() {
+							raw.Close()
+							continue
+						}
+
+						// Cap source image size to avoid OOM with large phone photos.
+						// Resize and pipeline intermediates (especially Resize 2x) can
+						// easily push a worker to 100MB+ per image.
+						var img gocv.Mat
+						if *maxDim > 0 {
+							iw, ih := raw.Cols(), raw.Rows()
+							largest := iw
+							if ih > largest {
+								largest = ih
+							}
+							if largest > *maxDim {
+								scale := float64(*maxDim) / float64(largest)
+								img = gocv.NewMat()
+								gocv.Resize(raw, &img, image.Pt(0, 0), scale, scale, gocv.InterpolationArea)
+								raw.Close()
+							} else {
+								img = raw
+							}
+						} else {
+							img = raw
+						}
 
 						workerPipe.ResetAll()
 						for workerPipe.Next() {
@@ -212,6 +238,12 @@ func main() {
 				}(w)
 			}
 			wg.Wait()
+
+			// Between pipeline passes, hint the GC to collect freed OpenCV native
+			// memory. Without this, Go's GC may not run often enough under CGo
+			// workloads and RSS grows unboundedly.
+			runtime.GC()
+			debug.FreeOSMemory()
 		}
 		fmt.Printf("--- PHASE %d FINISHED ---\n", length)
 

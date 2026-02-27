@@ -81,8 +81,27 @@ func (s *WeChatQRScanner) Scan(imagePath string) ([]string, error) {
 }
 
 func (s *WeChatQRScanner) detect(img gocv.Mat) []string {
+	if img.Empty() {
+		return nil
+	}
+	// WeChatQRCode expects a BGR (3-channel) image.
+	// Several pipeline filters (CLAHE, AdaptiveThreshold, BlackHat…) output
+	// grayscale or binary Mats. Passing those directly to the C++ decoder
+	// corrupts the malloc heap ("unsorted double linked list corrupted").
+	// Always normalise to BGR before calling into OpenCV contrib.
+	bgr := img
+	needsClose := false
+	if img.Channels() == 1 {
+		bgr = gocv.NewMat()
+		gocv.CvtColor(img, &bgr, gocv.ColorGrayToBGR)
+		needsClose = true
+	}
+	if needsClose {
+		defer bgr.Close()
+	}
+
 	var points []gocv.Mat
-	results := s.detector.DetectAndDecode(img, &points)
+	results := s.detector.DetectAndDecode(bgr, &points)
 	for _, p := range points {
 		p.Close()
 	}

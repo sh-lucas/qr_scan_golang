@@ -1,0 +1,118 @@
+malloc(): unsorted double linked list corrupted
+SIGABRT: abort
+PC=0x73367f463d51 m=12 sigcode=18446744073709551610
+signal arrived during cgo execution
+
+goroutine 71 gp=0xc000204380 m=12 mp=0xc000300708 [syscall]:
+runtime.cgocall(0x5245f0, 0xc000394af0)
+	/usr/local/go/src/runtime/cgocall.go:167 +0x4b fp=0xc000394ac8 sp=0xc000394a90 pc=0x480c8b
+gocv.io/x/gocv/contrib._Cfunc_WeChatQRCode_DetectAndDecode(0x111e51b0, 0x733574859ae0, 0xc00043d8c0, 0x733574828cb0)
+	_cgo_gotypes.go:2887 +0x4d fp=0xc000394af0 sp=0xc000394ac8 pc=0x4f3b6d
+gocv.io/x/gocv/contrib.(*WeChatQRCode).DetectAndDecode.func4(0x0?, 0xc000204380?, 0xc00043d8c0, 0x733574828cb0)
+	/go/pkg/mod/gocv.io/x/gocv@v0.43.0/contrib/wechat_qrcode.go:40 +0xd1 fp=0xc000394b50 sp=0xc000394af0 pc=0x4f4931
+gocv.io/x/gocv/contrib.(*WeChatQRCode).DetectAndDecode(0xc0000720a8, {0x733574859ae0, {0x0, 0x0, 0x0}}, 0xc000394cc8)
+	/go/pkg/mod/gocv.io/x/gocv@v0.43.0/contrib/wechat_qrcode.go:40 +0x192 fp=0xc000394c78 sp=0xc000394b50 pc=0x4f4452
+github.com/sh-lucas/qr_scan_golang/scanner.(*WeChatQRScanner).detect(0xc000394dd0?, {0x733574859ae0?, {0x0?, 0x0?, 0x0?}})
+	/app/scanner/wechat_qr.go:85 +0x46 fp=0xc000394d18 sp=0xc000394c78 pc=0x4f4e86
+github.com/sh-lucas/qr_scan_golang/scanner.(*WeChatQRScanner).DetectRaw(...)
+	/app/scanner/wechat_qr.go:111
+main.main.func10(0x5)
+	/app/cmd/fuzz/main.go:185 +0x4cf fp=0xc000394fc8 sp=0xc000394d18 pc=0x4f728f
+main.main.gowrap3()
+	/app/cmd/fuzz/main.go:212 +0x24 fp=0xc000394fe0 sp=0xc000394fc8 pc=0x4f6d84
+runtime.goexit({})
+	/usr/local/go/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000394fe8 sp=0xc000394fe0 pc=0x48cba1
+created by main.main in goroutine 1
+	/app/cmd/fuzz/main.go:153 +0x1bce
+
+goroutine 1 gp=0xc0000061c0 m=nil [semacquire]:
+runtime.gopark(0x4c21d1?, 0xc000027950?, 0x0?, 0x0?, 0x652da0?)
+	/usr/local/go/src/runtime/proc.go:424 +0xce fp=0xc000027920 sp=0xc000027900 pc=0x485b0e
+runtime.goparkunlock(...)
+	/usr/local/go/src/runtime/proc.go:430
+runtime.semacquire1(0xc0002a8078, 0x0, 0x1, 0x0, 0x12)
+	/usr/local/go/src/runtime/sema.go:178 +0x225 fp=0xc000027988 sp=0xc000027920 pc=0x466765
+sync.runtime_Semacquire(0xc0002ae168?)
+	/usr/local/go/src/runtime/sema.go:71 +0x25 fp=0xc0000279c0 sp=0xc000027988 pc=0x486c65
+sync.(*WaitGroup).Wait(0x586308?)
+	/usr/local/go/src/sync/waitgroup.go:118 +0x48 fp=0xc0000279e8 sp=0xc0000279c0 pc=0x493f28
+main.main()
+	/app/cmd/fuzz/main.go:214 +0x145a fp=0xc000027f50 sp=0xc0000279e8 pc=0x4f63ba
+runtime.main()
+	/usr/local/go/src/runtime/proc.go:272 +0x28b fp=0xc000027fe0 sp=0xc000027f50 pc=0x45508b
+runtime.goexit({})
+	/usr/local/go/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000027fe8 sp=0xc000027fe0 pc=0x48cba1
+
+goroutine 2 gp=0xc000006c40 m=nil [force gc (idle)]:
+runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+	/usr/local/go/src/runtime/proc.go:424 +0xce fp=0xc00006efa8 sp=0xc00006ef88 pc=0x485b0e
+runtime.goparkunlock(...)
+	/usr/local/go/src/runtime/proc.go:430
+runtime.forcegchelper()
+	/usr/local/go/src/runtime/proc.go:337 +0xb3 fp=0xc00006efe0 sp=0xc00006efa8 pc=0x4553d3
+runtime.goexit({})
+	/usr/local/go/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00006efe8 sp=0xc00006efe0 pc=0x48cba1
+created by runtime.init.7 in goroutine 1
+	/usr/local/go/src/runtime/proc.go:325 +0x1a
+
+goroutine 3 gp=0xc000007180 m=nil [GC sweep wait]:
+runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+	/usr/local/go/src/runtime/proc.go:424 +0xce fp=0xc00006f780 sp=0xc00006f760 pc=0x485b0e
+runtime.goparkunlock(...)
+	/usr/local/go/src/runtime/proc.go:430
+runtime.bgsweep(0xc00009c000)
+	/usr/local/go/src/runtime/mgcsweep.go:277 +0x94 fp=0xc00006f7c8 sp=0xc00006f780 pc=0x440d34
+runtime.gcenable.gowrap1()
+	/usr/local/go/src/runtime/mgc.go:203 +0x25 fp=0xc00006f7e0 sp=0xc00006f7c8 pc=0x4356c5
+runtime.goexit({})
+	/usr/local/go/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00006f7e8 sp=0xc00006f7e0 pc=0x48cba1
+created by runtime.gcenable in goroutine 1
+	/usr/local/go/src/runtime/mgc.go:203 +0x66
+
+goroutine 4 gp=0xc000007340 m=nil [GC scavenge wait]:
+runtime.gopark(0xc00009c000?, 0x584800?, 0x1?, 0x0?, 0xc000007340?)
+	/usr/local/go/src/runtime/proc.go:424 +0xce fp=0xc00006ff78 sp=0xc00006ff58 pc=0x485b0e
+runtime.goparkunlock(...)
+	/usr/local/go/src/runtime/proc.go:430
+runtime.(*scavengerState).park(0x662100)
+	/usr/local/go/src/runtime/mgcscavenge.go:425 +0x49 fp=0xc00006ffa8 sp=0xc00006ff78 pc=0x43e769
+runtime.bgscavenge(0xc00009c000)
+	/usr/local/go/src/runtime/mgcscavenge.go:653 +0x3c fp=0xc00006ffc8 sp=0xc00006ffa8 pc=0x43ecdc
+runtime.gcenable.gowrap2()
+	/usr/local/go/src/runtime/mgc.go:204 +0x25 fp=0xc00006ffe0 sp=0xc00006ffc8 pc=0x435665
+runtime.goexit({})
+	/usr/local/go/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00006ffe8 sp=0xc00006ffe0 pc=0x48cba1
+created by runtime.gcenable in goroutine 1
+	/usr/local/go/src/runtime/mgc.go:204 +0xa5
+
+goroutine 5 gp=0xc000007c00 m=nil [finalizer wait]:
+runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+	/usr/local/go/src/runtime/proc.go:424 +0xce fp=0xc000070620 sp=0xc000070600 pc=0x485b0e
+runtime.runfinq()
+	/usr/local/go/src/runtime/mfinal.go:193 +0x107 fp=0xc0000707e0 sp=0xc000070620 pc=0x434747
+runtime.goexit({})
+	/usr/local/go/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc0000707e8 sp=0xc0000707e0 pc=0x48cba1
+created by runtime.createfing in goroutine 1
+	/usr/local/go/src/runtime/mfinal.go:163 +0x3d
+
+rax    0x0
+rbx    0x733627fff700
+rcx    0x73367f463d51
+rdx    0x0
+rdi    0x2
+rsi    0x733627ffd3b0
+rbp    0x733627ffd700
+rsp    0x733627ffd3b0
+r8     0x0
+r9     0x733627ffd3b0
+r10    0x8
+r11    0x246
+r12    0x733627ffd620
+r13    0x1000
+r14    0x10
+r15    0x733681e4b000
+rip    0x73367f463d51
+rflags 0x246
+cs     0x33
+fs     0x0
+gs     0x0
